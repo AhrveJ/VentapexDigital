@@ -5,10 +5,12 @@ import { Button } from '@/components/ui/Button';
 
 interface ContactCardProps {
   serviceName?: string;
+  /** Preselects this service in the contact form */
+  serviceSlug?: string;
   pricing?: ServicePricing;
 }
 
-export function ContactCard({ serviceName, pricing }: ContactCardProps) {
+export function ContactCard({ serviceName, serviceSlug, pricing }: ContactCardProps) {
   return (
     <aside className="border border-ink/15 bg-white p-6">
       {pricing && (
@@ -20,7 +22,7 @@ export function ContactCard({ serviceName, pricing }: ContactCardProps) {
       <h2 className="text-xl font-semibold">{serviceName ? `Ask about ${serviceName}` : 'Talk to us'}</h2>
       <p className="mt-2 text-sm text-ink-soft">Tell us what you need and we will reply within one business day.</p>
       <p className="mt-4 text-sm"><a className="font-semibold hover:text-brass" href={`tel:${site.phone}`}>{site.phone}</a></p>
-      <Button to="/contact" className="mt-5 w-full justify-center !bg-ink !text-white hover:!bg-ink-soft">
+      <Button to={serviceSlug ? `/contact?service=${serviceSlug}` : '/contact'} className="mt-5 w-full justify-center !bg-ink !text-white hover:!bg-ink-soft">
         Schedule a consultation
       </Button>
     </aside>

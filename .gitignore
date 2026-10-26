@@ -12,6 +12,8 @@ build/
 .vite/
 vite.config.ts.timestamp-*
 
+package-lock.json
+
 # Environment variables
 .env
 .env.*

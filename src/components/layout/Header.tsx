@@ -58,6 +58,7 @@ export function Header() {
                 {s.name}
               </Link>
             ))}
+            <Link to="/about" onClick={close}>About</Link>
             <Link to="/contact" onClick={close}>Contact</Link>
           </Container>
         </nav>

@@ -43,7 +43,7 @@ export default function ServicePage() {
           ))}
         </div>
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <ContactCard serviceName={service.name} pricing={service.pricing} />
+          <ContactCard serviceName={service.name} serviceSlug={service.slug} pricing={service.pricing} />
         </div>
       </Container>
     </>
