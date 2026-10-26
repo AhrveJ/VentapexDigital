@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { @apply bg-paper font-sans text-ink antialiased; }
+  h1, h2, h3 { @apply font-display; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-brass; }
+}
+
+@layer utilities {
+  /* Ledger-paper ruling: the one signature visual of the site */
+  .ledger-lines {
+    background-image: repeating-linear-gradient(
+      to bottom, transparent 0, transparent 39px, rgba(255,255,255,0.08) 39px, rgba(255,255,255,0.08) 40px
+    );
+  }
+}
