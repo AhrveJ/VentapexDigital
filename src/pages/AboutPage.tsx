@@ -1,7 +1,6 @@
 import { Seo } from '@/components/seo/Seo';
 import { PageHero } from '@/components/service/PageHero';
 import { Container } from '@/components/ui/Container';
-import { Button } from '@/components/ui/Button';
 import { site } from '@/config/site';
 import { team } from '@/data/team';
 import { TeamPhoto } from '@/components/team/TeamPhoto';
