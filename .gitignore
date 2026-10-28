@@ -46,3 +46,7 @@ coverage/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Python contact API
+__pycache__/
+server/ratelimit/

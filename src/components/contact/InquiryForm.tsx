@@ -1,24 +1,40 @@
-import { useState, type FormEvent } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useRef, useState, type FormEvent } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { site } from '@/config/site';
 import { services } from '@/data/services';
 
-type Status = 'idle' | 'sending' | 'sent' | 'mailto' | 'error';
+type Status = 'idle' | 'sending' | 'sent' | 'captcha' | 'limited' | 'error';
 
 const fieldCls =
   'mt-1 w-full rounded-lg border border-ink/20 bg-white px-4 py-3 text-ink placeholder:text-ink/40 focus:border-brass focus:outline-none focus:ring-2 focus:ring-brass/30';
 const labelCls = 'block text-sm font-semibold';
 
-export function InquiryForm() {
-  const [params] = useSearchParams();
-  const preselected = services.some((s) => s.slug === params.get('service')) ? params.get('service')! : '';
+interface InquiryFormProps {
+  /** Service slug to preselect; ignored if it doesn't match a service */
+  defaultService?: string | null;
+  /** Pass null when the surrounding UI already shows a title, e.g. in a modal */
+  heading?: string | null;
+  /** Drop the card border and padding when the form sits inside another container */
+  bare?: boolean;
+  onSent?: () => void;
+}
+
+export function InquiryForm({ defaultService, heading = 'Send us an inquiry', bare = false, onSent }: InquiryFormProps) {
+  const preselected = services.some((s) => s.slug === defaultService) ? defaultService! : '';
+  const boxCls = bare ? '' : 'rounded-2xl border border-ink/10 bg-white p-6 md:p-8';
   const [status, setStatus] = useState<Status>('idle');
+  const captchaRef = useRef<ReCAPTCHA>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
     if (data._gotcha) return; // spam bot filled the hidden field
+    if (!captchaToken) {
+      setStatus('captcha');
+      return;
+    }
 
     const serviceName = services.find((s) => s.slug === data.service)?.name ?? 'Not sure yet';
     const fields = {
@@ -30,33 +46,32 @@ export function InquiryForm() {
       Message: data.message,
     };
 
-    // No form backend configured: hand off to the visitor's email app.
-    if (!site.formEndpoint) {
-      const body = Object.entries(fields).map(([k, v]) => `${k}: ${v || '-'}`).join('\n');
-      const subject = `Service inquiry: ${serviceName}`;
-      window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      setStatus('mailto');
-      return;
-    }
-
     setStatus('sending');
     try {
       const res = await fetch(site.formEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...fields, _subject: `Service inquiry: ${serviceName}` }),
+        body: JSON.stringify({ ...fields, captcha: captchaToken }),
       });
-      if (!res.ok) throw new Error(String(res.status));
-      form.reset();
-      setStatus('sent');
+      if (res.ok) {
+        form.reset();
+        setStatus('sent');
+        onSent?.();
+        return;
+      }
+      const { error } = await res.json().catch(() => ({ error: '' }));
+      setStatus(res.status === 429 ? 'limited' : error === 'captcha_failed' ? 'captcha' : 'error');
     } catch {
       setStatus('error');
     }
+    // A reCAPTCHA token works only once, so a retry needs a fresh tick
+    captchaRef.current?.reset();
+    setCaptchaToken(null);
   }
 
   if (status === 'sent') {
     return (
-      <div role="status" className="rounded-2xl border border-ink/10 bg-white p-8">
+      <div role="status" className={boxCls}>
         <h2 className="text-2xl font-semibold">Thank you, we received your inquiry</h2>
         <p className="mt-2 text-ink-soft">We will reply within one business day.</p>
       </div>
@@ -64,8 +79,8 @@ export function InquiryForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5 rounded-2xl border border-ink/10 bg-white p-6 md:p-8">
-      <h2 className="text-2xl font-semibold">Send us an inquiry</h2>
+    <form onSubmit={onSubmit} className={`space-y-5 ${boxCls}`}>
+      {heading && <h2 className="text-2xl font-semibold">{heading}</h2>}
 
       <div className="grid gap-5 sm:grid-cols-2">
         <label className={labelCls}>
@@ -109,6 +124,16 @@ export function InquiryForm() {
       {/* Honeypot: hidden from people, filled by bots */}
       <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
 
+      {/* <ReCAPTCHA
+        ref={captchaRef}
+        sitekey={site.recaptchaSiteKey}
+        onChange={(token) => {
+          setCaptchaToken(token);
+          if (token && status === 'captcha') setStatus('idle');
+        }}
+        onExpired={() => setCaptchaToken(null)}
+      /> */}
+
       <button
         type="submit"
         disabled={status === 'sending'}
@@ -117,10 +142,12 @@ export function InquiryForm() {
         {status === 'sending' ? 'Sending…' : 'Send inquiry'}
       </button>
 
-      {status === 'mailto' && (
-        <p role="status" className="text-sm text-ink-soft">
-          Your email app should open with your inquiry filled in. If it does not, email us at{' '}
-          <a className="underline" href={`mailto:${site.email}`}>{site.email}</a>.
+      {status === 'captcha' && (
+        <p role="alert" className="text-sm text-red-700">Please tick “I'm not a robot” before sending.</p>
+      )}
+      {status === 'limited' && (
+        <p role="alert" className="text-sm text-red-700">
+          You have sent several inquiries already. Please try again in an hour or call us at {site.phone}.
         </p>
       )}
       {status === 'error' && (

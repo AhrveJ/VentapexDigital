@@ -147,7 +147,7 @@ export const services: Service[] = [
     summary: 'Personal and business returns, filed accurately and e-filed for you.',
     heroTitle: 'Business and personal tax returns',
     highlights: [
-      'Every return prepared by a CPA or EA',
+      // 'Every return prepared by a CPA or EA',
       'Electronic filing included',
       'Individuals, corporations and LLCs',
       'Secure document sharing',

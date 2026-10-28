@@ -42,7 +42,7 @@ export default function ServicePage() {
             <SectionRenderer key={section.title} section={section} />
           ))}
         </div>
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        <div data-aos="fade-up" data-aos-delay="150" className="lg:sticky lg:top-24 lg:self-start">
           <ContactCard serviceName={service.name} serviceSlug={service.slug} pricing={service.pricing} />
         </div>
       </Container>

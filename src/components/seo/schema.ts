@@ -6,7 +6,7 @@ export const organizationSchema = {
   '@type': 'AccountingService',
   name: site.name,
   url: site.url,
-  email: site.email,
+  // email: site.email,
   telephone: site.phone,
   address: { '@type': 'PostalAddress', streetAddress: site.address },
 };

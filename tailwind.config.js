@@ -15,6 +15,15 @@ export default {
         display: ['Newsreader', 'Georgia', 'serif'],
         sans: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
       },
+      keyframes: {
+        'page-in': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+      },
+      animation: {
+        'page-in': 'page-in 0.4s ease-out',
+      },
     },
   },
   plugins: [],

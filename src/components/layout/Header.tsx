@@ -14,8 +14,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-paper/95 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
-        <Link to="/" className="font-display text-xl font-semibold" onClick={close}>
-          {site.name}
+        <Link to="/" className="shrink-0" onClick={close}>
+          <img src="/images/logo.jpg" alt={site.name} width={48} height={48} className="h-12 w-12 rounded" />
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-8 md:flex">

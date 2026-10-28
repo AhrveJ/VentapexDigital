@@ -4,7 +4,7 @@ type Props = Extract<ServiceSection, { type: 'table' }>;
 
 export function TableSection({ title, intro, columns, rows, note }: Props) {
   return (
-    <section>
+    <section data-aos="fade-up">
       <h2 className="text-3xl font-semibold">{title}</h2>
       {intro && <p className="mt-4 leading-relaxed text-ink-soft">{intro}</p>}
       <div className="mt-6 overflow-x-auto">

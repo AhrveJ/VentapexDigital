@@ -4,15 +4,17 @@ export interface TeamMember {
   phone?: string;
   /** Path under /public */
   photo: string;
+  photoCrop?: { zoom: number; focus: string };
 }
 
 /** First entry is featured on the home page. */
 export const team: TeamMember[] = [
   {
     name: 'Justin Tio',
-    title: 'Senior Accountant and CEO',
+    title: 'CEO',
     phone: '610-804-0459',
     photo: '/images/justin-tio.jpg',
+    photoCrop: { zoom: 2, focus: '42% 28%' },
   },
   {
     name: 'Kristelle Moyano',

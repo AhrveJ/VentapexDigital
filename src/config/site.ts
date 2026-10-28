@@ -1,15 +1,14 @@
 export const site = {
-  name: 'Vantapex Digital',
+  name: 'AZN Accounting LLC',
   url: 'https://www.example.com',
   description: 'Tax preparation, accounting and fractional CFO services for individuals and growing businesses.',
-  email: 'hello@example.com',
+  // email: 'hello@example.com',
   phone: '(555) 010-2030',
   address: '100 Main Street, Suite 200, Anytown, USA',
-  /**
-   * Where the contact form posts (e.g. a Formspree or Web3Forms URL).
-   * Leave empty and the form opens the visitor's email app instead.
-   */
-  formEndpoint: '' as string,
+  /** Contact form API (server/contact_app.py), set in .env */
+  formEndpoint: import.meta.env.VITE_FORM_ENDPOINT || '/api/contact',
+  /** reCAPTCHA v2 checkbox SITE key, set in .env. The secret key never goes here. */
+  recaptchaSiteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? '',
   nav: [
     { label: 'Home', to: '/' },
     { label: 'About', to: '/about' },

@@ -23,12 +23,18 @@ export function Footer() {
           <p className="font-semibold text-white">Visit or call</p>
           <p className="mt-3">{site.address}</p>
           <p><a className="hover:text-brass-light" href={`tel:${site.phone}`}>{site.phone}</a></p>
-          <p><a className="hover:text-brass-light" href={`mailto:${site.email}`}>{site.email}</a></p>
+          {/* <p><a className="hover:text-brass-light" href={`mailto:${site.email}`}>{site.email}</a></p> */}
         </address>
       </Container>
-      <div className="border-t border-white/10 py-5 text-center text-xs">
-        © {new Date().getFullYear()} {site.name}. All rights reserved.
+       <div className="border-t border-white/10 py-5 text-center text-xs">
+        © {new Date().getFullYear()} {site.name}.
       </div>
+      {/* <div className="border-t border-white/10 py-5 text-xs">
+        <Container className="flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-between sm:text-left">
+          <p>{new Date().getFullYear()} {site.name}.</p>
+          <p className="text-white/60">© by Vantapex Digital Inc.</p>
+        </Container>
+      </div> */}
     </footer>
   );
 }

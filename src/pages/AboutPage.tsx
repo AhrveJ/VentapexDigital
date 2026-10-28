@@ -4,6 +4,7 @@ import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { site } from '@/config/site';
 import { team } from '@/data/team';
+import { TeamPhoto } from '@/components/team/TeamPhoto';
 
 export default function AboutPage() {
   return (
@@ -19,29 +20,23 @@ export default function AboutPage() {
         crumbs={[{ name: 'Home', to: '/' }, { name: 'About' }]}
       />
       <Container className="py-16">
-        <h2 className="text-3xl font-semibold">Our team</h2>
+        <h2 data-aos="fade-up" className="text-3xl font-semibold">Our team</h2>
         <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {team.map((m) => (
-            <article key={m.name}>
-              <img
-                src={m.photo}
-                alt={`${m.name}, ${m.title}`}
-                width={800}
-                height={1000}
-                className="aspect-[4/5] w-full rounded-2xl object-cover object-top shadow-lg"
-              />
+          {team.map((m, i) => (
+            <article key={m.name} data-aos="fade-up" data-aos-delay={i * 120}>
+              <TeamPhoto member={m} />
               <h3 className="mt-5 text-2xl font-semibold">{m.name}</h3>
               <p className="text-brass">{m.title}</p>
-              {m.phone && (
+              {/* {m.phone && (
                 <p className="mt-2">
                   <a className="font-semibold hover:text-brass" href={`tel:${m.phone}`}>{m.phone}</a>
                 </p>
-              )}
+              )} */}
             </article>
           ))}
         </div>
-        <div className="mt-14">
-          <Button to="/contact" className="!bg-ink !text-white hover:!bg-ink-soft">Schedule a consultation</Button>
+        <div data-aos="fade-up" className="mt-14">
+          {/* <Button to="/contact" className="!bg-ink !text-white hover:!bg-ink-soft">Schedule a consultation</Button> */}
         </div>
       </Container>
     </>
