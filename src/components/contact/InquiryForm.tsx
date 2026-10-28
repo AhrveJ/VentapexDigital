@@ -5,9 +5,11 @@ import { services } from '@/data/services';
 
 type Status = 'idle' | 'sending' | 'sent' | 'captcha' | 'limited' | 'error';
 
+// The form always sits on the primary navy (its own card, or the navy modal), so fields are light-on-dark.
+// color-scheme: dark gives the <select> a dark native dropdown to match.
 const fieldCls =
-  'mt-1 w-full rounded-lg border border-ink/20 bg-white px-4 py-3 text-ink placeholder:text-ink/40 focus:border-brass focus:outline-none focus:ring-2 focus:ring-brass/30';
-const labelCls = 'block text-sm font-semibold';
+  'mt-2 w-full rounded-xl border border-white/15 bg-white/[0.06] px-4 py-3 font-normal text-white transition-colors [color-scheme:dark] placeholder:text-white/40 hover:border-white/30 focus:border-brass-light focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-brass-light/30';
+const labelCls = 'block text-sm font-semibold text-white/90';
 
 interface InquiryFormProps {
   /** Service slug to preselect; ignored if it doesn't match a service */
@@ -21,7 +23,7 @@ interface InquiryFormProps {
 
 export function InquiryForm({ defaultService, heading = 'Send us an inquiry', bare = false, onSent }: InquiryFormProps) {
   const preselected = services.some((s) => s.slug === defaultService) ? defaultService! : '';
-  const boxCls = bare ? '' : 'rounded-2xl border border-ink/10 bg-white p-6 md:p-8';
+  const boxCls = bare ? '' : 'rounded-3xl bg-ink p-6 text-white shadow-[0_30px_60px_-25px_rgba(11,28,41,0.5)] md:p-10';
   const [status, setStatus] = useState<Status>('idle');
   const captchaRef = useRef<ReCAPTCHA>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
@@ -71,9 +73,14 @@ export function InquiryForm({ defaultService, heading = 'Send us an inquiry', ba
 
   if (status === 'sent') {
     return (
-      <div role="status" className={boxCls}>
-        <h2 className="text-2xl font-semibold">Thank you, we received your inquiry</h2>
-        <p className="mt-2 text-ink-soft">We will reply within one business day.</p>
+      <div role="status" className={`text-center ${boxCls}`}>
+        <span aria-hidden className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brass-light">
+          <svg viewBox="0 0 20 20" className="h-6 w-6 fill-none stroke-ink stroke-[2.5]">
+            <path d="M4 10.5l4 4 8-9" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+        <h2 className="mt-5 text-2xl font-bold">Thank you, we received your inquiry</h2>
+        <p className="mt-2 text-white/70">We will reply within one business day.</p>
       </div>
     );
   }
@@ -84,11 +91,11 @@ export function InquiryForm({ defaultService, heading = 'Send us an inquiry', ba
 
       <div className="grid gap-5 sm:grid-cols-2">
         <label className={labelCls}>
-          Full name <span className="text-brass">*</span>
+          Full name <span className="text-brass-light">*</span>
           <input name="name" required autoComplete="name" className={fieldCls} />
         </label>
         <label className={labelCls}>
-          Email <span className="text-brass">*</span>
+          Email <span className="text-brass-light">*</span>
           <input name="email" type="email" required autoComplete="email" className={fieldCls} />
         </label>
         <label className={labelCls}>
@@ -102,7 +109,7 @@ export function InquiryForm({ defaultService, heading = 'Send us an inquiry', ba
       </div>
 
       <label className={labelCls}>
-        Service you are interested in <span className="text-brass">*</span>
+        Service you are interested in <span className="text-brass-light">*</span>
         <select name="service" required defaultValue={preselected} className={fieldCls}>
           <option value="" disabled>Select a service</option>
           {services.map((s) => <option key={s.slug} value={s.slug}>{s.name}</option>)}
@@ -111,7 +118,7 @@ export function InquiryForm({ defaultService, heading = 'Send us an inquiry', ba
       </label>
 
       <label className={labelCls}>
-        How can we help? <span className="text-brass">*</span>
+        How can we help? <span className="text-brass-light">*</span>
         <textarea
           name="message"
           required
@@ -137,21 +144,22 @@ export function InquiryForm({ defaultService, heading = 'Send us an inquiry', ba
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="w-full rounded-lg bg-ink px-5 py-4 font-semibold text-white transition-colors hover:bg-ink-soft disabled:opacity-60"
+        className="group flex w-full items-center justify-center gap-2 rounded-full bg-brass-light px-5 py-4 font-semibold text-ink transition-colors hover:bg-white disabled:opacity-60"
       >
         {status === 'sending' ? 'Sending…' : 'Send inquiry'}
+        {status !== 'sending' && <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>}
       </button>
 
       {status === 'captcha' && (
-        <p role="alert" className="text-sm text-red-700">Please tick “I'm not a robot” before sending.</p>
+        <p role="alert" className="text-sm text-red-300">Please tick “I'm not a robot” before sending.</p>
       )}
       {status === 'limited' && (
-        <p role="alert" className="text-sm text-red-700">
+        <p role="alert" className="text-sm text-red-300">
           You have sent several inquiries already. Please try again in an hour or call us at {site.phone}.
         </p>
       )}
       {status === 'error' && (
-        <p role="alert" className="text-sm text-red-700">
+        <p role="alert" className="text-sm text-red-300">
           Something went wrong sending your inquiry. Please try again or call us at {site.phone}.
         </p>
       )}

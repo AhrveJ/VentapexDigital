@@ -4,16 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: '#10283A',
+        // Primary color: dark navy used for backgrounds, headings and buttons
+        ink: '#0B1C29',
         'ink-soft': '#3C5568',
         paper: '#F8FAFB',
+        // Soft off-white for light sections: neutral, just a touch less bright than pure white
+        cloud: '#F3F5F7',
         mist: '#E6EEF2',
         brass: '#B7791F',
         'brass-light': '#F2C14E',
       },
       fontFamily: {
-        display: ['Newsreader', 'Georgia', 'serif'],
-        sans: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
+        // One primary font for the whole site. `display` stays as an alias so existing font-display classes still work.
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         'page-in': {

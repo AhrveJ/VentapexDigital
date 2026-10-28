@@ -10,6 +10,7 @@ export const services: Service[] = [
     name: 'Bookkeeping',
     summary: 'Accurate, reconciled books every month, so your numbers are always ready when you need them.',
     heroTitle: 'Bookkeeping Services',
+    heroImageAlt: 'A calculator and tax forms laid out on a desk',
     heroLead:
       'Reliable, organized, and accurate financial records are the foundation of every successful business. Our bookkeeping services help ensure that your financial transactions are properly recorded, categorized, and reconciled.',
     pricing: { label: 'Monthly retainer', startingAt: 499, period: 'month' },
@@ -57,6 +58,7 @@ export const services: Service[] = [
     name: 'Accounting & Financial Reporting',
     summary: 'Financial statements, ledger reviews and close support, ready for tax time and audits.',
     heroTitle: 'Accounting & Financial Reporting Services',
+    heroImageAlt: 'A laptop showing financial charts and reports',
     heroLead:
       'Our accounting services go beyond transaction recording to help businesses maintain reliable financial statements, accurate general ledger balances, and organized financial records. We support month-end and year-end close processes and help prepare your books for tax preparation and external audits.',
     pricing: { label: 'Monthly retainer', startingAt: 749, period: 'month' },
@@ -98,6 +100,7 @@ export const services: Service[] = [
     name: 'Fractional CFO & Advisory',
     summary: 'Strategic financial insight and oversight without the cost of a full-time CFO.',
     heroTitle: 'Fractional CFO & Strategic Financial Advisory',
+    heroImageAlt: 'A young plant growing out of a pile of coins',
     heroLead:
       'Our fractional CFO services provide businesses with strategic financial insight and ongoing financial oversight without the cost of hiring a full-time Chief Financial Officer.',
     pricing: { label: 'Monthly retainer', startingAt: 1999, period: 'month' },
@@ -146,6 +149,7 @@ export const services: Service[] = [
     name: 'Tax Preparation',
     summary: 'Personal and business returns, filed accurately and e-filed for you.',
     heroTitle: 'Business and personal tax returns',
+    heroImageAlt: 'Tax forms, a pen and a calculator on a table',
     highlights: [
       // 'Every return prepared by a CPA or EA',
       'Electronic filing included',

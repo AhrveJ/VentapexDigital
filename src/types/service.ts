@@ -22,6 +22,8 @@ export interface Service {
   summary: string;
   heroTitle: string;
   heroLead: string;
+  /** Alt text for the hero photo at public/images/hero/<slug>.jpg */
+  heroImageAlt: string;
   pricing?: ServicePricing;
   /** Checklist on the home-page card. Falls back to the first list section's items. */
   highlights?: string[];
