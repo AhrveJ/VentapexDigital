@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { site } from '@/config/site';
-import { formatStartingPrice } from '@/lib/format';
+// import { formatStartingPrice } from '@/lib/format';
 import type { ServicePricing } from '@/types/service';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
