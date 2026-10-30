@@ -17,7 +17,7 @@ export function WhoWeHelpSection({ leader }: { leader: TeamMember }) {
   return (
     <section className="bg-cloud text-ink">
       <Container className="grid items-center gap-12 py-16 md:py-24 lg:grid-cols-2 lg:gap-16">
-        <div data-aos="fade-up">
+        <div data-aos="fade-right">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brass">Who we help</p>
           <h2 className="mt-4 text-4xl font-bold leading-tight md:text-5xl">
             Built for small businesses and the people who run them.
@@ -30,7 +30,7 @@ export function WhoWeHelpSection({ leader }: { leader: TeamMember }) {
         </div>
 
         {leader.intro && (
-          <figure data-aos="fade-up" data-aos-delay="150" className="rounded-3xl bg-ink p-8 text-white shadow-[0_30px_60px_-25px_rgba(11,28,41,0.45)] md:p-10">
+          <figure data-aos="fade-left" data-aos-delay="150" className="rounded-3xl bg-ink p-8 text-white shadow-[0_30px_60px_-25px_rgba(11,28,41,0.45)] md:p-10">
             <svg aria-hidden viewBox="0 0 32 24" className="h-7 w-9 fill-brass-light">
               <path d="M0 24V14C0 6 4.5 1.3 12 0l1.5 3.4C9 5 7 8 7 11h6v13H0zm18 0V14c0-8 4.5-12.7 12-14l1.5 3.4C27 5 25 8 25 11h6v13H18z" />
             </svg>

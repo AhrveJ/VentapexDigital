@@ -14,7 +14,14 @@ export function ServiceCard({ service, aosDelay = 0 }: { service: Service; aosDe
   return (
     // AOS sets transform on whatever it animates, so it goes on this wrapper and the article keeps its hover lift.
     // grid-cols-1 (minmax(0,1fr)) keeps the card at its column's width even when content is wide.
-    <div data-aos="fade-up" data-aos-delay={aosDelay} className="row-span-5 grid grid-cols-1 grid-rows-subgrid gap-y-0">
+    // fade-right: each card slides in from the left; with the staggered delay they sweep across left to right.
+    <div
+      data-aos="fade-right"
+      data-aos-delay={aosDelay}
+      data-aos-duration="900"
+      data-aos-easing="ease-out-back"
+      className="row-span-5 grid grid-cols-1 grid-rows-subgrid gap-y-0"
+    >
     <article
       className={`group relative row-span-5 grid grid-rows-subgrid gap-y-0 rounded-3xl border p-7 transition duration-300 ease-out hover:-translate-y-2 hover:scale-[1.08] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 ${
         featured
@@ -41,12 +48,17 @@ export function ServiceCard({ service, aosDelay = 0 }: { service: Service; aosDe
       <div className="mt-6">
         {pricing ? (
           <>
-            <p className={`mb-2 text-sm ${muted}`}>Starting at</p>
+            {/* <p className={`mb-2 text-sm ${muted}`}>Starting at</p>
             <p className="font-display">
               <span className="text-5xl font-semibold leading-[3rem] xl:text-4xl">${pricing.startingAt.toLocaleString('en-US')}</span>
               <span className={`text-lg ${muted}`}>/{pricing.period}</span>
             </p>
-            <p className={`mt-1 text-sm font-semibold ${accent}`}>{pricing.label}</p>
+            <p className={`mt-1 text-sm font-semibold ${accent}`}>{pricing.label}</p> */}
+            <>
+              <p className={`mb-2 text-sm ${muted}`}>Pricing</p>
+              <p className="font-display whitespace-nowrap text-3xl font-semibold leading-[3rem] sm:text-4xl xl:text-3xl">Custom quote</p>
+              {/* <p className={`mt-1 text-sm font-semibold ${accent}`}>Based on your return</p> */}
+            </>
           </>
         ) : (
           <>
@@ -57,7 +69,7 @@ export function ServiceCard({ service, aosDelay = 0 }: { service: Service; aosDe
         )}
       </div>
 
-      <ul className="mb-8 mt-6 space-y-4">
+      <ul className="mb-6 mt-4 space-y-4">
         {highlights.map((item) => (
           <li key={item} className="flex gap-3">
             <svg aria-hidden viewBox="0 0 20 20" className={`mt-1 h-4 w-4 shrink-0 fill-none stroke-[2.5] ${featured ? 'stroke-brass-light' : 'stroke-brass transition-colors duration-300 group-hover:stroke-brass-light'}`}>

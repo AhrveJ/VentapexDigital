@@ -27,17 +27,17 @@ export const services: Service[] = [
         'Monthly bookkeeping, reconciliations, AP/AR tracking and sales tax support. Retainers start at $499 per month.',
     },
     sections: [
-      {
-        type: 'table',
-        title: 'Monthly pricing tiers',
-        columns: ['Business size', 'Monthly transactions', 'Starting monthly fee'],
-        rows: [
-          ['Small Business', '1–500', '$499'],
-          ['Mid-Sized Business', '501–4,000', '$999'],
-          ['High-Volume Business', '4,001+', '$1,999'],
-        ],
-        note: 'Final pricing may vary based on transaction volume, account complexity, payroll requirements, and the overall scope of work.',
-      },
+      // {
+      //   type: 'table',
+      //   title: 'Monthly pricing tiers',
+      //   columns: ['Business size', 'Monthly transactions', 'Starting monthly fee'],
+      //   rows: [
+      //     ['Small Business', '1–500', '$499'],
+      //     ['Mid-Sized Business', '501–4,000', '$999'],
+      //     ['High-Volume Business', '4,001+', '$1,999'],
+      //   ],
+      //   note: 'Final pricing may vary based on transaction volume, account complexity, payroll requirements, and the overall scope of work.',
+      // },
       {
         type: 'list',
         title: 'Services include',
@@ -149,7 +149,7 @@ export const services: Service[] = [
     name: 'Tax Preparation',
     summary: 'Personal and business returns, filed accurately and e-filed for you.',
     heroTitle: 'Business and personal tax returns',
-    heroImageAlt: 'Tax forms, a pen and a calculator on a table',
+    heroImageAlt: 'An AZN Accounting desk with a tax form on a tablet, a phone calculator, a laptop dashboard and tax service documents',
     highlights: [
       // 'Every return prepared by a CPA or EA',
       'Electronic filing included',
@@ -197,3 +197,9 @@ export const services: Service[] = [
 ];
 
 export const getServiceBySlug = (slug?: string) => services.find((s) => s.slug === slug);
+
+/** What a service includes, for the contact form checkboxes: the list titled "...include...", else the first list. */
+export function getIncludedItems(service: Service): string[] {
+  const lists = service.sections.filter((s) => s.type === 'list');
+  return (lists.find((s) => /includ/i.test(s.title)) ?? lists[0])?.items ?? [];
+}

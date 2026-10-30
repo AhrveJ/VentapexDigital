@@ -31,6 +31,8 @@ def build_html(fields: dict, site_name: str, logo_src: str | None = None) -> str
     phone = fields["Phone"]
     company = escape(fields["Company"]) if fields["Company"] else '<span style="color:#9AA9B5;">Not provided</span>'
     message = escape(fields["Message"]).replace("\n", "<br>")
+    # Ticked checkboxes arrive as "a; b; c" and are shown one per line
+    needs = "<br>".join(f"&#10003; {escape(n.strip())}" for n in fields.get("Needs", "").split(";") if n.strip())
     site = escape(site_name)
     # The logo's navy background matches the header, so it blends in without a frame
     logo_cell = (
@@ -59,8 +61,9 @@ def build_html(fields: dict, site_name: str, logo_src: str | None = None) -> str
             _row("Email", f'<a href="mailto:{escape(fields["Email"], quote=True)}" style="color:{BRASS};text-decoration:none;">{email}</a>'),
             _row("Phone", phone_html),
             _row("Company", company),
-            _row("Service", f'<span style="display:inline-block;padding:3px 10px;border-radius:999px;background:{MIST};font:600 13px/20px {FONT};color:{INK};">{service}</span>', last=True),
+            _row("Service", f'<span style="display:inline-block;padding:3px 10px;border-radius:999px;background:{MIST};font:600 13px/20px {FONT};color:{INK};">{service}</span>', last=not needs),
         ]
+        + ([_row("Needs help with", needs, last=True)] if needs else [])
     )
 
     return f"""<!doctype html>

@@ -48,7 +48,7 @@ export const team: TeamMember[] = [
     phone: '610-804-0459',
     photo: '/images/justin-tio.jpg',
     // Full-length photo: zoom in so the face sits near the middle with room above the hair
-    photoCrop: { zoom: 2, focus: '50% 20%' },
+    photoCrop: { zoom: 2, focus: '50% 35%' },
     // SAMPLE CONTENT: placeholder intro, bio and skills. Replace with Justin's real story and details.
     // No `experience` on purpose: the CEO's story is told in the bio instead of a timeline.
     intro:
@@ -105,12 +105,12 @@ export const team: TeamMember[] = [
       },
     ],
     skills: [
+      // 'AI Integrated Accounting Firm',
       'Bookkeeping',
       'Bank reconciliations',
       'Accounts payable & receivable',
-      'Month-end close',
       'QuickBooks Online',
-      'Microsoft Excel',
+      // 'Microsoft Excel',
     ],
     socials: {
       linkedin: 'https://www.linkedin.com/in/...',

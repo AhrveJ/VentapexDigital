@@ -31,9 +31,9 @@ export default function ContactPage() {
         crumbs={[{ name: 'Home', to: '/' }, { name: 'Contact' }]}
       />
 
-      <section className="bg-white">
+      <section  id="inquiry"  className="bg-white">
         <Container className="grid gap-12 py-16 md:py-24 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
-          <div data-aos="fade-up" className="lg:pt-6">
+          <div data-aos="fade-right" className="lg:pt-6">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brass">Contact</p>
             <h2 className="mt-4 text-4xl font-bold leading-tight md:text-5xl">Let's talk about your numbers.</h2>
             <p className="mt-5 max-w-md leading-relaxed text-ink-soft">
@@ -49,8 +49,10 @@ export default function ContactPage() {
             </ul>
           </div>
 
-          <div data-aos="fade-up" data-aos-delay="150">
-            <InquiryForm defaultService={params.get('service')} heading={null} />
+          {/* #inquiry: "Book a consultation" buttons across the site land here. scroll-mt clears the sticky header. */}
+          <div data-aos="fade-left" data-aos-delay="150" className="scroll-mt-28">
+            {/* Keyed so arriving from a different service's button re-selects that service */}
+            <InquiryForm key={params.get('service') ?? ''} defaultService={params.get('service')} heading={null} />
           </div>
         </Container>
       </section>

@@ -75,7 +75,7 @@ def send_email(env: dict, fields: dict) -> None:
     msg["Reply-To"] = formataddr((fields["Name"], fields["Email"]))
     msg["Subject"] = f"Service inquiry: {fields['Service'] or 'Not sure yet'}"
     # Plain text first as the fallback, then the designed HTML version most email apps will show
-    details = "\n".join(f"{k}: {fields[k] or '-'}" for k in ("Name", "Email", "Phone", "Company", "Service"))
+    details = "\n".join(f"{k}: {fields[k] or '-'}" for k in ("Name", "Email", "Phone", "Company", "Service", "Needs"))
     msg.set_content(f"{details}\n\n{fields['Message']}")
     logo = HERE / "email-logo.jpg"
     site_name = env.get("SITE_NAME") or "AZN Accounting LLC"
@@ -158,6 +158,8 @@ def application(environ, start_response):
         "Phone": clean("Phone", 40),
         "Company": clean("Company", 120),
         "Service": clean("Service", 120),
+        # What the client ticked under "What do you need help with?", joined with "; "
+        "Needs": clean("Needs", 1500),
         "Message": clean("Message", 5000, one_line=False),
     }
     if not fields["Name"] or not fields["Message"] or not EMAIL_RE.match(fields["Email"]):

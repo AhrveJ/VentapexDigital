@@ -1,7 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { site } from '@/config/site';
-import { services } from '@/data/services';
+import { getIncludedItems, services } from '@/data/services';
 
 type Status = 'idle' | 'sending' | 'sent' | 'captcha' | 'limited' | 'error';
 
@@ -25,13 +25,17 @@ export function InquiryForm({ defaultService, heading = 'Send us an inquiry', ba
   const preselected = services.some((s) => s.slug === defaultService) ? defaultService! : '';
   const boxCls = bare ? '' : 'rounded-3xl bg-ink p-6 text-white shadow-[0_30px_60px_-25px_rgba(11,28,41,0.5)] md:p-10';
   const [status, setStatus] = useState<Status>('idle');
+  const [serviceSlug, setServiceSlug] = useState(preselected);
+  const selectedService = services.find((s) => s.slug === serviceSlug);
+  const includedItems = selectedService ? getIncludedItems(selectedService) : [];
   const captchaRef = useRef<ReCAPTCHA>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData) as Record<string, string>;
     if (data._gotcha) return; // spam bot filled the hidden field
     if (!captchaToken) {
       setStatus('captcha');
@@ -45,6 +49,8 @@ export function InquiryForm({ defaultService, heading = 'Send us an inquiry', ba
       Phone: data.phone,
       Company: data.company,
       Service: serviceName,
+      // Ticked "what's included" checkboxes; Object.fromEntries would keep only the last one
+      Needs: formData.getAll('needs').join('; '),
       Message: data.message,
     };
 
@@ -110,12 +116,38 @@ export function InquiryForm({ defaultService, heading = 'Send us an inquiry', ba
 
       <label className={labelCls}>
         Service you are interested in <span className="text-brass-light">*</span>
-        <select name="service" required defaultValue={preselected} className={fieldCls}>
+        <select
+          name="service"
+          required
+          value={serviceSlug}
+          onChange={(e) => setServiceSlug(e.target.value)}
+          className={`${fieldCls} [&_option:disabled]:text-ink/45 [&_option]:bg-white [&_option]:text-ink`}
+        >
           <option value="" disabled>Select a service</option>
           {services.map((s) => <option key={s.slug} value={s.slug}>{s.name}</option>)}
           <option value="other">Not sure yet</option>
         </select>
       </label>
+
+      {/* Appears once a service is chosen. Keyed by service so switching services clears the ticks. */}
+      {includedItems.length > 0 && (
+        <fieldset key={serviceSlug} className="animate-page-in motion-reduce:animate-none">
+          <legend className={labelCls}>
+            What do you need help with? <span className="font-normal text-white/50">(optional, tick all that apply)</span>
+          </legend>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            {includedItems.map((item) => (
+              <label
+                key={item}
+                className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-sm text-white/80 transition-colors hover:border-white/30 has-[:checked]:border-brass-light has-[:checked]:bg-brass-light/10 has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brass-light/40"
+              >
+                <input type="checkbox" name="needs" value={item} className="mt-0.5 h-4 w-4 shrink-0 accent-brass-light" />
+                <span>{item}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )}
 
       <label className={labelCls}>
         How can we help? <span className="text-brass-light">*</span>

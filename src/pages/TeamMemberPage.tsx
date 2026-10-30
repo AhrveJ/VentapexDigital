@@ -26,11 +26,11 @@ export default function TeamMemberPage() {
       <PageHero
         title={member.name}
         lead={member.headline ?? `${member.title} at ${site.name}`}
-        crumbs={[{ name: 'Home', to: '/' }, { name: 'About', to: '/about' }, { name: member.name }]}
+        crumbs={[{ name: 'Home', to: '/' }, { name: 'Company', to: '/about' }, { name: member.name }]}
       />
 
       <Container className="grid gap-12 py-16 lg:grid-cols-[340px_1fr]">
-        <aside data-aos="fade-up" className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+        <aside data-aos="fade-right" className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <TeamPhoto member={member} className="w-64 sm:w-80 lg:w-full" />
           <div>
             <p className="text-2xl font-semibold font-display">{member.name}</p>
@@ -41,7 +41,7 @@ export default function TeamMemberPage() {
 
         <div className="max-w-3xl space-y-14">
           {member.intro && (
-            <figure data-aos="fade-up" className="border-l-4 border-brass pl-6">
+            <figure data-aos="fade-left" className="border-l-4 border-brass pl-6">
               <blockquote className="font-display text-2xl leading-snug text-ink md:text-3xl">“{member.intro}”</blockquote>
               <figcaption className="mt-3 text-sm font-semibold text-ink-soft">{member.name}</figcaption>
             </figure>
@@ -97,7 +97,7 @@ export default function TeamMemberPage() {
             </section>
           )}
 
-          <Link to="/about" className="inline-block text-sm font-semibold text-ink-soft hover:text-brass">← Back to the team</Link>
+          <Link to="/about#team" className="inline-block text-sm font-semibold text-ink-soft hover:text-brass">← Back to the team</Link>
         </div>
       </Container>
     </>

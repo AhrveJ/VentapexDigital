@@ -33,8 +33,10 @@ export function ContactCard({ serviceName, serviceSlug, pricing }: ContactCardPr
       {pricing && (
         <div className="relative mb-6 border-b border-white/10 pb-6">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brass-light">{pricing.label}</p>
+          {/* <p className="mt-3 text-sm text-white/60">Starting at</p> */}
           <p className="mt-3 text-sm text-white/60">Starting at</p>
-          <p className="text-4xl font-bold text-brass-light">{formatStartingPrice(pricing)}</p>
+          {/* <p className="text-4xl font-bold text-brass-light">{formatStartingPrice(pricing)}</p> */}
+          <p className="text-4xl font-bold text-brass-light">Custom Qoute</p>
         </div>
       )}
       <h2 className="relative text-xl font-bold">{serviceName ? `Ask about ${serviceName}` : 'Talk to us'}</h2>

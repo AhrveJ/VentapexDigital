@@ -6,9 +6,13 @@ import { ServiceCard } from '@/components/service/ServiceCard';
 import { Container } from '@/components/ui/Container';
 import { services } from '@/data/services';
 import { FaqSection } from '@/components/sections/FaqSection';
+import { FamilyOfCompaniesSection } from '@/components/sections/FamilyOfCompaniesSection';
 import { faqs } from '@/data/faqs';
 import { WhoWeHelpSection } from '@/components/sections/WhoWeHelpSection';
 import { team } from '@/data/team';
+
+/** How many of the first FAQs show on the home page */
+const HOME_FAQ_COUNT = 4;
 
 const aboutPoints = [
   { title: 'A dedicated accountant', text: 'one point of contact who knows your business.' },
@@ -24,22 +28,24 @@ export default function HomePage() {
         eyebrow="Accounting · Tax · Bookkeeping"
         title="Clear books. Confident decisions."
         lead="We handle your bookkeeping, tax and financial reporting so you always know where your business stands, and what to do next."
-        image={{ src: '/images/hero/home.jpg', alt: 'Two colleagues celebrating over a laptop and financial reports' }}
-        badge={{ title: 'Books closed on time', text: 'Clear monthly reports' }}
-        primaryAction={{ label: 'Book a free consultation', to: '/contact' }}
+        backgroundImage={{
+          src: '/images/hero/home-desk.jpg',
+          alt: 'A laptop showing a financial dashboard on a desk, next to an AZN Accounting mug and a notebook listing bookkeeping, tax planning, financial reports and business growth',
+        }}
+        primaryAction={{ label: 'Book a free consultation', to: '/contact#inquiry' }}
         secondaryAction={{ label: 'Explore services', to: '#services' }}
         // TODO: replace placeholder numbers with real ones
         stats={[
-          { value: '[XX]+', label: 'Years of experience' },
-          { value: '[XXX]+', label: 'Clients served' },
-          { value: '[CPA / EA]', label: 'Credentials' },
+          { value: '15+', label: 'Years of experience', icon: 'briefcase' },
+          { value: '100+', label: 'Clients served', icon: 'users' },
+          // { value: '[CPA / EA]', label: 'Credentials', icon: 'shield' },
         ]}
       />
       <section id="services" className="scroll-mt-20 bg-cloud">
         <Container className="py-16 md:py-20">
-          <h2 data-aos="fade-up" className="text-3xl font-semibold md:text-4xl">Our services</h2>
+          <h2 data-aos="fade-right" className="text-3xl font-semibold md:text-4xl">Our services</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {services.map((s, i) => <ServiceCard key={s.slug} service={s} aosDelay={i * 100} />)}
+            {services.map((s, i) => <ServiceCard key={s.slug} service={s} aosDelay={150 + i * 150} />)}
           </div>
         </Container>
       </section>
@@ -47,26 +53,26 @@ export default function HomePage() {
       {/* Same navy as the FAQ below, so a faint line separates the two */}
       <section className="border-b border-white/10 bg-ink text-white">
         <Container className="grid items-center gap-12 py-16 md:py-24 lg:grid-cols-2 lg:gap-16">
-          {/* Sample stock photos in public/images/about. The tall photo sets the height; the two on the right split it evenly. */}
-          <div data-aos="fade-up" className="grid grid-cols-[1.15fr_1fr] grid-rows-2 gap-4">
+          {/* Photos in public/images/about (home-*.jpg, cropped from the client's mockup). The tall photo sets the height; the two on the right split it evenly. */}
+          <div data-aos="fade-right" className="grid grid-cols-[1.15fr_1fr] grid-rows-2 gap-4">
             <img
-              src="/images/about/team-at-work.jpg"
-              alt="Team members planning together at a whiteboard"
+              src="/images/about/home-whiteboard.jpg"
+              alt="An accountant presenting charts on a whiteboard to colleagues"
               className="row-span-2 aspect-[3/4] h-full w-full rounded-3xl object-cover"
             />
             <img
-              src="/images/about/client-meeting.jpg"
-              alt="An accountant meeting with a client over a laptop"
+              src="/images/about/home-consultation.jpg"
+              alt="A smiling accountant reviewing documents with a client"
               className="h-full w-full rounded-3xl object-cover"
             />
             <img
-              src="/images/about/working-session.jpg"
-              alt="Colleagues discussing figures at a desk"
+              src="/images/about/home-desk-detail.jpg"
+              alt="Hands working a calculator over financial reports beside an AZN Accounting mug"
               className="h-full w-full rounded-3xl object-cover"
             />
           </div>
 
-          <div data-aos="fade-up" data-aos-delay="150">
+          <div data-aos="fade-left" data-aos-delay="150">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brass-light">About AZN Accounting</p>
             <h2 className="mt-4 text-4xl font-bold leading-tight md:text-5xl">
               A modern firm with old-fashioned attention to detail.
@@ -87,7 +93,7 @@ export default function HomePage() {
               ))}
             </ul>
             <Link
-              to="/about"
+              to="/about#team"
               className="mt-8 inline-flex items-center rounded-full bg-brass-light px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-white"
             >
               Meet the team
@@ -98,7 +104,11 @@ export default function HomePage() {
 
       <WhoWeHelpSection leader={team[0]} />
 
-      <FaqSection faqs={faqs} />
+      {/* Navy between the light "Who we help" above and the white FAQs below */}
+      <FamilyOfCompaniesSection dark />
+
+      {/* Preview only: the full list lives on /faqs */}
+      <FaqSection faqs={faqs.slice(0, HOME_FAQ_COUNT)} more={{ label: 'View all FAQs', to: '/faqs' }} />
     </>
   );
 }

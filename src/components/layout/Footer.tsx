@@ -35,7 +35,7 @@ export function Footer() {
           </Link>
           <p className="mt-5 max-w-xs leading-relaxed">{site.description}</p>
           <Link
-            to="/contact"
+            to="/contact#inquiry"
             className="group mt-7 inline-flex items-center gap-2 rounded-full bg-brass-light px-5 py-3 font-semibold text-ink transition-colors hover:bg-white"
           >
             Book a consultation
@@ -55,7 +55,8 @@ export function Footer() {
         <nav aria-label="Company">
           <p className={headingCls}>Company</p>
           <ul className="mt-5 space-y-3">
-            {site.nav.map((n) => (
+            {/* Company sections are listed individually rather than a second "Company" link under this heading */}
+            {site.nav.flatMap((n): readonly { label: string; to: string }[] => ('children' in n ? n.children : [n])).map((n) => (
               <li key={n.to}><Link className={linkCls} to={n.to}>{dot}{n.label}</Link></li>
             ))}
           </ul>

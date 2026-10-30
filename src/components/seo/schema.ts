@@ -1,5 +1,6 @@
 import { site } from '@/config/site';
 import type { Service } from '@/types/service';
+import type { Faq } from '@/data/faqs';
 
 export const organizationSchema = {
   '@context': 'https://schema.org',
@@ -32,7 +33,18 @@ export const serviceSchema = (s: Service) => ({
   }),
 });
 
-export const breadcrumbSchema = (items: { name: string; path: string }[]) => ({
+// Lets search engines show the questions as rich results. Bullet lists are flattened into the answer text.
+export const faqSchema = (faqs: Faq[]) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.question,
+    acceptedAnswer: { '@type': 'Answer', text: f.answer.map((b) => (typeof b === 'string' ? b : b.join('; '))).join(' ') },
+  })),
+});
+
+export const breadcrumbSchema =(items: { name: string; path: string }[]) => ({
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: items.map((item, i) => ({

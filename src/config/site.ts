@@ -11,7 +11,20 @@ export const site = {
   recaptchaSiteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? '',
   nav: [
     { label: 'Home', to: '/' },
-    { label: 'About', to: '/about' },
+    {
+      label: 'Company',
+      to: '/about',
+      // Dropdown items jump to sections on the company page
+      children: [
+        { label: 'Company overview', to: '/about' },
+        { label: 'Our team', to: '/about#team' },
+        { label: 'History', to: '/about#history' },
+        { label: 'Mission & Vision', to: '/about#mission-vision' },
+        { label: 'Culture', to: '/about#culture' },
+        { label: 'Family of companies', to: '/about#family' },
+      ],
+    },
+    { label: 'FAQs', to: '/faqs' },
     { label: 'Contact', to: '/contact' },
   ],
 } as const;
